@@ -10,6 +10,14 @@ AMovingPlatform::AMovingPlatform()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
+	InterpMovement = CreateDefaultSubobject<UInterpToMovementComponent>(TEXT("InterpMovement"));
+
+	Root->SetupAttachment(GetRootComponent());
+	Mesh->SetupAttachment(Root);
+	Spline->SetupAttachment(Root);
+	
 	
 
 }
@@ -18,6 +26,16 @@ AMovingPlatform::AMovingPlatform()
 void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
+
+	for (int i = 0; i < Spline->GetNumberOfSplinePoints(); i++)
+	{
+		FVector point = Spline->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local);
+		InterpMovement->AddControlPointPosition(point);
+	}
+	InterpMovement->SetComponentTickEnabled(true);
+	InterpMovement->BehaviourType = EInterpToBehaviourType::PingPong;
+	InterpMovement->Duration = Duration;
+	InterpMovement->FinaliseControlPoints();
 	
 }
 

@@ -3,6 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+
+#include "Components/StaticMeshComponent.h"
+#include "Components/SceneComponent.h"
+#include "Components/SplineComponent.h"
+#include "Components/InterpToMovementComponent.h"
+
 #include "GameFramework/Actor.h"
 #include "MovingPlatform.generated.h"
 
@@ -17,6 +24,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float Duration;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -24,6 +34,10 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh;
-
+	USceneComponent* Root;
+	UPROPERTY(VisibleAnywhere)
+	USplineComponent* Spline;
+	UInterpToMovementComponent* InterpMovement;
+	
 
 };
