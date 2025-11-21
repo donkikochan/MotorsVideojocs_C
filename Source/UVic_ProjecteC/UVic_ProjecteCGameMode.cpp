@@ -11,5 +11,6 @@ AUVic_ProjecteCGameMode::AUVic_ProjecteCGameMode()
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
+        
 	}
 }
